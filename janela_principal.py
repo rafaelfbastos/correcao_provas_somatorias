@@ -1,4 +1,5 @@
 from tkinter import *
+from tkinter import messagebox
 
 
 class JanelaPrincipal:
@@ -29,7 +30,8 @@ class JanelaPrincipal:
         self.rb_t2.grid(row=1, column=2, padx=5, pady=5)
         # Butão de ajuda falta iplementar
         self.img_ajuda = PhotoImage(file="./img/ajuda.png")
-        self.btn_ajuda = Button(self.frame_head, image=self.img_ajuda).grid(row=1, column=3, padx=5, pady=5)
+        Button(self.frame_head, image=self.img_ajuda,
+               command=lambda: messagebox.showinfo("showinfo", "Information")).grid(row=1, column=3, padx=5, pady=5)
 
         # Adicionar as questões
         Label(self.frame_head, text="Quantidade de questões").grid(row=2, column=0, padx=5, pady=5)
