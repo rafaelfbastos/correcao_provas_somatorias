@@ -38,7 +38,6 @@ class JanelaPrincipal:
         self.rb_t2.grid(row=1, column=2, padx=5, pady=5)
         # Butão de ajuda falta iplementar
         self.img_ajuda = PhotoImage(file="./img/ajuda.png")
-        self.img_formula = PhotoImage(file="./img/formula.png")
         Button(self.frame_head, image=self.img_ajuda,
                command=lambda: messagebox.showinfo("Ajuda",
                                                    "Tipo 1: Proma somatóra onde uma alternativa errada marcada "
