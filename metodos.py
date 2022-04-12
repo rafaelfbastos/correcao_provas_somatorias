@@ -1,6 +1,10 @@
 def corrigirMetodo1(gabarito, resposta, nAlternativas):
     gabarito = int(gabarito)
     resposta = int(resposta)
+    if not validar_entrada(nAlternativas, gabarito):
+        return 'false'
+    if not validar_entrada(nAlternativas, resposta):
+        return 'false'
     x = ""
     nAcertos = 0
     nAlternativasCertas = 0
@@ -36,6 +40,12 @@ def corrigirMetodo1(gabarito, resposta, nAlternativas):
 def corrigirMetodo2(gabarito, resposta, nAlternativas):
     gabarito = int(gabarito)
     resposta = int(resposta)
+
+    if not validar_entrada(nAlternativas, gabarito):
+        return False
+    if not validar_entrada(nAlternativas, resposta):
+        return False
+
     x = ""
     ntpc = 0  # número total de proposições corretas
     npc = 0  # número proposições corretas assinaladas
@@ -67,5 +77,20 @@ def corrigirMetodo2(gabarito, resposta, nAlternativas):
         nota = 0
 
     return nota
+
+
+def validar_entrada(n_alternativas, valor):
+    x = 0
+    for i in range(n_alternativas):
+        x = x + 2 ** i
+    if valor>x:
+        return False
+    else:
+        return True
+
+
+if __name__ == "__main__":
+    r = corrigirMetodo2(21,13,5)
+
 
 

@@ -32,6 +32,7 @@ class JanelaPrincipal:
 
         # Configurando Radio Botton
         self.tipo_prova = IntVar()
+        self.tipo_prova.set(1)
         self.rb_t1 = Radiobutton(self.frame_head, text="Tipo 1", value=1, variable=self.tipo_prova)
         self.rb_t1.grid(row=1, column=1, padx=5, pady=5)
         self.rb_t2 = Radiobutton(self.frame_head, text="Tipo 2", value=2, variable=self.tipo_prova)
@@ -91,17 +92,20 @@ class JanelaPrincipal:
         self.principal.mainloop()
 
     def add_questao(self):
+        alternativas_padrao = IntVar()
+        alternativas_padrao.set(5)
+
         pos = len(self.label_questao) + 1
         temp = Label(self.frame_questao, text=f'Questão {pos}:', anchor="center")
         self.label_questao.append(temp)
         self.label_questao[-1].grid(row=pos, column=0, padx=5, pady=5)
-        temp = Entry(self.frame_questao, width=15)
+        temp = Entry(self.frame_questao, width=15, textvariable=alternativas_padrao, justify=CENTER)
         self.alternativas.append(temp)
         self.alternativas[-1].grid(row=pos, column=1, padx=5, pady=5)
-        temp = Entry(self.frame_questao, width=15)
+        temp = Entry(self.frame_questao, width=15, justify=CENTER)
         self.gabarito.append(temp)
         self.gabarito[-1].grid(row=pos, column=2, padx=5, pady=5)
-        temp = Entry(self.frame_questao, width=15)
+        temp = Entry(self.frame_questao, width=15, justify=CENTER)
         self.respostas.append(temp)
         self.respostas[-1].grid(row=pos, column=3, padx=5, pady=5)
         temp = Label(self.frame_questao, text="", background="white", width=15, borderwidth=1, relief="groove")
@@ -128,23 +132,40 @@ class JanelaPrincipal:
     def corrigir(self):
         nota = 0
 
-        for i in range(len(self.respostas)):
+        try:
+            for i in range(len(self.respostas)):
 
-            try:
                 if self.tipo_prova.get() == 1:
                     r = corrigirMetodo1(int(self.gabarito[i].get()), int(self.respostas[i].get()),
                                         int(self.alternativas[i].get()))
-                    self.porcentagem[i]["text"] = f"{r:.2%}"
+
+                    if r == 'false':
+                        messagebox.showerror("Erro:", "Gabarito ou Resposta não condiz com o número de alternativas")
+                    else:
+                        self.porcentagem[i]["text"] = f"{r:.2%}"
 
                 if self.tipo_prova.get() == 2:
                     r = corrigirMetodo2(int(self.gabarito[i].get()), int(self.respostas[i].get()),
                                         int(self.alternativas[i].get()))
-                    self.porcentagem[i]["text"] = f"{r:.2%}"
+                    if r == 'false':
+                        messagebox.showerror("Erro:", "Gabarito ou Resposta não condiz com o número de alternativas")
+                    else:
+                        self.porcentagem[i]["text"] = f"{r:.2%}"
 
                 nota = nota + r
+            nota = nota / len(self.respostas)
+            self.resultado["text"] = f'{nota * 10:.1f}'
+        except ValueError:
+            messagebox.showerror("Erro", "Preencha todas as informações com números inteiros positivos")
 
-                nota = nota / len(self.respostas)
-                self.resultado["text"] = f'{nota * 10:.1f}'
 
-            except:
-                pass
+
+if __name__ == '__main__':
+
+    r = corrigirMetodo2(14,21,5)
+    print(r)
+    if r == 'false':
+        print('nao foi')
+    else:
+        print('foi')
+
